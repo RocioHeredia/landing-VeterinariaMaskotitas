@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import HeroSection from '../components/HeroSection.astro';
+import EmergencyBanner from '../components/EmergencyBanner.astro';
+import ServicesSection from '../components/ServicesSection.astro';
+import MarqueeStrip from '../components/MarqueeStrip.astro';
+import AppointmentCTA from '../components/AppointmentCTA.astro';
+import TestimonialsSection from '../components/TestimonialsSection.astro';
+import ContactAndLocations from '../components/ContactAndLocations.astro';
+import FooterSection from '../components/FooterSection.astro';
+---
+
+<BaseLayout>
+  <Nav />
+  <main>
+    <HeroSection />
+    <EmergencyBanner />
+    <ServicesSection />
+    <MarqueeStrip />
+    <AppointmentCTA />
+    <TestimonialsSection />
+    <ContactAndLocations />
+  </main>
+  <FooterSection />
+</BaseLayout>
+
+<script>
+  import { initAnimations } from '../scripts/scroll-animations';
+  initAnimations();
+</script>

@@ -1,0 +1,113 @@
+---
+import { services } from '../data/services';
+---
+
+<section id="servicios" class="py-20 bg-surface">
+  <!-- Encabezado -->
+  <div class="max-w-7xl mx-auto px-8 mb-14">
+    <div class="section-fade text-center max-w-2xl mx-auto">
+      <h2 class="text-4xl md:text-5xl font-bold text-on-surface mb-4">Nuestros Servicios</h2>
+      <p class="text-xl text-on-surface-variant leading-relaxed italic" style="font-family: var(--font-display);">
+        Atención integral para la salud y el bienestar de tu mascota en un solo lugar.
+      </p>
+    </div>
+  </div>
+
+  <!-- Carousel con flechas -->
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="flex items-center gap-3">
+
+      <!-- Flecha izquierda -->
+      <button
+        id="services-prev"
+        aria-label="Servicio anterior"
+        class="carousel-btn flex-shrink-0 w-10 h-10 bg-surface-container-lowest rounded-full shadow-md border border-outline-variant/30 flex items-center justify-center text-on-surface hover:bg-surface-container hover:border-primary/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+      >
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">chevron_left</span>
+      </button>
+
+      <!-- Carousel -->
+      <div id="services-carousel" class="snap-carousel hide-scrollbar select-none flex-1">
+        {services.map((service) => (
+          <div class="group w-[264px] rounded-2xl p-6 flex flex-col h-[264px] border
+            bg-primary border-transparent shadow-lg
+            md:bg-white md:border-outline-variant/20 md:shadow-sm
+            md:hover:bg-primary md:hover:border-transparent md:hover:shadow-xl md:hover:shadow-primary/25
+            transition-all duration-300 cursor-default">
+
+            <!-- Ícono -->
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4 flex-shrink-0
+              bg-white/20 text-white
+              md:bg-primary/10 md:text-primary
+              md:group-hover:bg-white/20 md:group-hover:text-white
+              transition-colors duration-300">
+              <span class="material-symbols-outlined text-2xl" aria-hidden="true">
+                {service.icon}
+              </span>
+            </div>
+
+            <!-- Título -->
+            <h3 class="font-bold text-lg mb-2
+              text-white
+              md:text-on-surface
+              md:group-hover:text-white
+              transition-colors duration-300">
+              {service.nombre}
+            </h3>
+
+            <!-- Descripción -->
+            <p class="text-sm leading-relaxed flex-grow
+              text-white/85
+              md:text-on-surface-variant
+              md:group-hover:text-white/85
+              transition-colors duration-300" style="font-family: var(--font-sans);">
+              {service.descripcion}
+            </p>
+
+          </div>
+        ))}
+      </div>
+
+      <!-- Flecha derecha -->
+      <button
+        id="services-next"
+        aria-label="Servicio siguiente"
+        class="carousel-btn flex-shrink-0 w-10 h-10 bg-surface-container-lowest rounded-full shadow-md border border-outline-variant/30 flex items-center justify-center text-on-surface hover:bg-surface-container hover:border-primary/30 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+      >
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">chevron_right</span>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  import { enableCarousel } from '../scripts/carousel';
+
+  const carousel = document.getElementById('services-carousel') as HTMLElement | null;
+  const prevBtn  = document.getElementById('services-prev')    as HTMLButtonElement | null;
+  const nextBtn  = document.getElementById('services-next')    as HTMLButtonElement | null;
+
+  if (carousel) {
+    enableCarousel(carousel);
+
+    const STEP = 264 + 24;
+
+    function syncArrows() {
+      if (!prevBtn || !nextBtn) return;
+      prevBtn.disabled = carousel.scrollLeft <= 1;
+      nextBtn.disabled = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 1;
+    }
+
+    prevBtn?.addEventListener('click', () => {
+      carousel.scrollBy({ left: -STEP, behavior: 'smooth' });
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      carousel.scrollBy({ left: STEP, behavior: 'smooth' });
+    });
+
+    carousel.addEventListener('scroll', syncArrows, { passive: true });
+    syncArrows();
+  }
+</script>

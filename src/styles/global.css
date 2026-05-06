@@ -1,0 +1,172 @@
+@import "tailwindcss";
+
+@theme {
+  /* ===== COLORES — paleta de desing/colors.png ===== */
+  --color-primary: #328291;
+  --color-primary-container: #c0e8ef;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #002125;
+  --color-secondary: #956cb4;
+  --color-secondary-container: #ead9ff;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #2e004f;
+  --color-tertiary: #a66a39;
+  --color-tertiary-container: #ffdcbc;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #331300;
+  --color-surface: #f5f9fb;
+  --color-surface-container: #eaeeef;
+  --color-surface-container-low: #f0f4f5;
+  --color-surface-container-high: #e5e8e9;
+  --color-surface-container-highest: #dfe3e4;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-surface: #181c1d;
+  --color-on-surface-variant: #3f4849;
+  --color-outline: #747879;
+  --color-outline-variant: #c4cdd0;
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-background: #f5f9fb;
+  --color-inverse-surface: #2d3132;
+  --color-inverse-primary: #7acfe0;
+
+  /* ===== FUENTES ===== */
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-jakarta: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* ===== BORDER RADIUS ===== */
+  --radius-4xl: 2rem;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== TIPOGRAFÍA DE DISPLAY ===== */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ===== MATERIAL SYMBOLS ===== */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== SCROLLBAR OCULTO ===== */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ===== MARQUEE ===== */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-25%); }
+}
+
+.marquee-track {
+  display: flex;
+  gap: 3rem;
+  flex-shrink: 0;
+  animation: marquee 10s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+/* ===== SNAP CAROUSEL ===== */
+.snap-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: none;
+}
+
+.snap-carousel > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ===== MOBILE NAV ===== */
+#mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#mobile-menu.open {
+  max-height: 26rem;
+}
+
+/* Contenedor interno: fade-in sutil */
+#mobile-menu > div {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.3s ease 0.06s, transform 0.3s ease 0.06s;
+}
+#mobile-menu.open > div {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ítems individuales: slide-in con stagger */
+#mobile-menu > div > a {
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+#mobile-menu.open > div > a:nth-child(1) {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.10s;
+}
+#mobile-menu.open > div > a:nth-child(2) {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.15s;
+}
+#mobile-menu.open > div > a:nth-child(3) {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.20s;
+}
+#mobile-menu.open > div > a:nth-child(4) {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.25s;
+}
+#mobile-menu.open > div > a:nth-child(5) {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.30s;
+}

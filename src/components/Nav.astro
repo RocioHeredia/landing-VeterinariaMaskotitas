@@ -1,0 +1,126 @@
+---
+const navLinks = [
+  { href: '/', label: 'Inicio' },
+  { href: '/#servicios', label: 'Servicios' },
+  { href: '/#testimonios', label: 'Reseñas' },
+  { href: '/#contacto', label: 'Reservá tu turno' },
+];
+---
+
+<header
+  id="main-nav"
+  class="fixed top-0 left-0 right-0 z-50 bg-[#297a8d] transition-all duration-300"
+>
+  <div class="flex items-center justify-between h-20 px-8 max-w-7xl mx-auto">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-3 group" aria-label="Maskotitas Veterinaria — inicio">
+      <img
+        src="/logo.png"
+        alt="Maskotitas Veterinaria"
+        width="56"
+        height="56"
+        loading="eager"
+        decoding="async"
+        class="w-14 h-14 rounded-xl object-cover group-hover:scale-105 transition-transform flex-shrink-0"
+      />
+      <span class="font-extrabold text-lg tracking-tight text-white hidden sm:block" style="font-family: var(--font-sans);">
+        Maskotitas
+      </span>
+    </a>
+
+    <!-- Links desktop -->
+    <nav class="hidden md:flex items-center gap-8" aria-label="Navegación principal">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class="text-sm font-semibold text-white/80 hover:text-white transition-colors duration-200"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- CTA desktop + hamburger mobile -->
+    <div class="flex items-center gap-3">
+      <a
+        href="https://www.instagram.com/maskotitasveterinaria"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden md:flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-white transition-opacity"
+        aria-label="Instagram de Maskotitas"
+      >
+        <span class="material-symbols-outlined text-[20px]">photo_camera</span>
+        Instagram
+      </a>
+      <button
+        id="hamburger"
+        class="md:hidden p-2 text-white"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menú mobile -->
+  <div id="mobile-menu" role="navigation" aria-label="Menú móvil">
+    <div class="px-8 pb-6 flex flex-col gap-4 border-t border-white/20" style="background-color: #297a8d;">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class="mobile-nav-link text-base font-semibold text-white/80 hover:text-white transition-colors py-1"
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="https://www.instagram.com/maskotitasveterinaria"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-base font-semibold text-white/80 hover:text-white py-1 flex items-center gap-2 transition-colors"
+      >
+        <span class="material-symbols-outlined text-[20px]">photo_camera</span>
+        Instagram
+      </a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const nav = document.getElementById('main-nav');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      nav?.classList.add('scrolled');
+    } else {
+      nav?.classList.remove('scrolled');
+    }
+  }, { passive: true });
+
+  hamburger?.addEventListener('click', () => {
+    const isOpen = mobileMenu?.classList.contains('open');
+    mobileMenu?.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(!isOpen));
+    const icon = hamburger.querySelector('.material-symbols-outlined');
+    if (icon) icon.textContent = isOpen ? 'menu' : 'close';
+  });
+
+  mobileMenu?.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger?.setAttribute('aria-expanded', 'false');
+      const icon = hamburger?.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = 'menu';
+    });
+  });
+</script>
+
+<style>
+  #main-nav.scrolled {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.22);
+  }
+</style>

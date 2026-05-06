@@ -1,0 +1,283 @@
+---
+import { services } from '../data/services';
+import { locations } from '../data/locations';
+
+const especies = ['Perro', 'Gato', 'Ave', 'Conejo', 'Otro'];
+const horarios = [
+  'Mañana (9:00 – 13:00)',
+  'Tarde (16:00 – 20:00)',
+];
+---
+
+<!-- Anchor para nav -->
+<span id="sucursales" class="block" aria-hidden="true"></span>
+
+<section id="contacto" class="py-20 px-8 bg-surface-container-low">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Encabezado general -->
+    <div class="section-fade text-center max-w-2xl mx-auto mb-14">
+      <h2 class="text-4xl md:text-5xl font-bold text-on-surface mb-3">
+        Reservá tu turno
+      </h2>
+      <p class="text-xl text-on-surface-variant leading-relaxed italic" style="font-family: var(--font-display);">
+        Elegí tu sucursal, completá el formulario y te contactamos por WhatsApp.
+      </p>
+    </div>
+
+    <!-- Grid: Sucursales (izq) + Formulario (der) -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-10 items-start">
+
+      <!-- ===== SUCURSALES ===== -->
+      <div class="flex flex-col gap-5">
+
+        <h3 class="text-lg font-bold text-on-surface flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary" aria-hidden="true">location_on</span>
+          Nuestras Sucursales
+        </h3>
+
+        {locations.map(loc => (
+          <div class="bg-surface-container-lowest rounded-2xl p-5 border border-outline-variant/20 shadow-sm hover:shadow-md hover:border-primary/25 transition-all duration-200">
+            <div class="flex items-start gap-3">
+              <!-- Ícono -->
+              <div class={[
+                'w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5',
+                loc.color === 'primary' ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary',
+              ].join(' ')}>
+                <span class="material-symbols-outlined text-xl" aria-hidden="true">store</span>
+              </div>
+              <!-- Info -->
+              <div class="flex flex-col gap-1 min-w-0">
+                <p class="font-bold text-on-surface text-base">{loc.nombre}</p>
+                <p class="text-sm text-on-surface-variant">{loc.direccion}</p>
+                <a
+                  href={`tel:${loc.telefono}`}
+                  class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:opacity-75 transition-opacity w-fit mt-1"
+                  aria-label={`Llamar: ${loc.telefonoDisplay}`}
+                >
+                  <span class="material-symbols-outlined text-sm" aria-hidden="true">call</span>
+                  {loc.telefonoDisplay}
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        <!-- Horarios resumidos -->
+        <div class="bg-primary/8 rounded-2xl p-5 border border-primary/15">
+          <p class="text-sm font-bold text-primary mb-2 flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-base" aria-hidden="true">schedule</span>
+            Horarios (Otoño / Invierno)
+          </p>
+          <ul class="text-sm text-on-surface-variant space-y-1">
+            <li>Lun – Vie: 9:00 – 13:00 y 16:00 – 20:00</li>
+            <li>Sábado: 9:30 – 13:00</li>
+          </ul>
+          <p class="text-sm font-semibold text-error mt-3 flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-base" aria-hidden="true">emergency</span>
+            Urgencias:
+            <a href="tel:2643220000" class="hover:opacity-75 transition-opacity">264 322-0000</a>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- ===== FORMULARIO ===== -->
+      <div class="section-fade bg-surface-container-lowest rounded-3xl p-7 md:p-9 shadow-sm border border-outline-variant/20">
+
+        <div class="flex items-center gap-2 mb-6">
+          <div class="w-9 h-9 bg-primary/10 text-primary rounded-xl flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-xl" aria-hidden="true">edit_calendar</span>
+          </div>
+          <h3 class="font-bold text-on-surface text-lg">Datos del turno</h3>
+        </div>
+
+        <form id="contact-form" novalidate class="flex flex-col gap-4">
+
+          <!-- Nombre + Teléfono -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1.5">
+              <label for="nombre" class="text-sm font-semibold text-on-surface">
+                Nombre <span class="text-error" aria-hidden="true">*</span>
+              </label>
+              <input id="nombre" name="nombre" type="text" required autocomplete="given-name"
+                placeholder="Tu nombre" class="form-input" />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="telefono" class="text-sm font-semibold text-on-surface">
+                Teléfono <span class="text-error" aria-hidden="true">*</span>
+              </label>
+              <input id="telefono" name="telefono" type="tel" required autocomplete="tel"
+                placeholder="264 000-0000" class="form-input" />
+            </div>
+          </div>
+
+          <!-- Mascota + Especie -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1.5">
+              <label for="nombre-mascota" class="text-sm font-semibold text-on-surface">
+                Nombre de la mascota <span class="text-error" aria-hidden="true">*</span>
+              </label>
+              <input id="nombre-mascota" name="nombre-mascota" type="text" required
+                placeholder="Nombre de tu mascota" class="form-input" />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="especie" class="text-sm font-semibold text-on-surface">
+                Especie <span class="text-error" aria-hidden="true">*</span>
+              </label>
+              <select id="especie" name="especie" required class="form-input">
+                <option value="" disabled selected>Seleccioná</option>
+                {especies.map(e => <option value={e}>{e}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <!-- Servicio -->
+          <div class="flex flex-col gap-1.5">
+            <label for="servicio" class="text-sm font-semibold text-on-surface">
+              Servicio <span class="text-error" aria-hidden="true">*</span>
+            </label>
+            <select id="servicio" name="servicio" required class="form-input">
+              <option value="" disabled selected>Seleccioná el servicio</option>
+              {services.map(s => (
+                <option value={s.nombre}>{s.nombre} — {s.descripcion}</option>
+              ))}
+            </select>
+          </div>
+
+          <!-- Sede -->
+          <div class="flex flex-col gap-1.5">
+            <label for="sede" class="text-sm font-semibold text-on-surface">
+              Sede <span class="text-error" aria-hidden="true">*</span>
+            </label>
+            <select id="sede" name="sede" required class="form-input">
+              <option value="" disabled selected>Seleccioná la sucursal</option>
+              {locations.map(loc => (
+                <option value={`${loc.nombre} — ${loc.direccion}`}>
+                  {loc.nombre} — {loc.direccion}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <!-- Fecha + Horario -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1.5">
+              <label for="fecha" class="text-sm font-semibold text-on-surface">
+                Fecha <span class="text-error" aria-hidden="true">*</span>
+              </label>
+              <input id="fecha" name="fecha" type="date" required class="form-input" />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="horario" class="text-sm font-semibold text-on-surface">
+                Horario <span class="text-error" aria-hidden="true">*</span>
+              </label>
+              <select id="horario" name="horario" required class="form-input">
+                <option value="" disabled selected>Seleccioná</option>
+                {horarios.map(h => <option value={h}>{h}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <!-- Comentario -->
+          <div class="flex flex-col gap-1.5">
+            <label for="comentario" class="text-sm font-semibold text-on-surface">
+              Comentario adicional
+            </label>
+            <textarea id="comentario" name="comentario" rows="3" class="form-input resize-none"
+              placeholder="Síntomas, consultas previas, o cualquier información útil...">
+            </textarea>
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            class="w-full inline-flex items-center justify-center gap-2 bg-primary text-on-primary font-bold py-4 px-8 rounded-full hover:bg-primary/90 active:scale-[0.98] transition-all duration-200 shadow-md shadow-primary/20 text-base mt-1"
+          >
+            <span class="material-symbols-outlined" aria-hidden="true">send</span>
+            Solicitar Turno por WhatsApp
+          </button>
+
+          <p class="text-xs text-on-surface-variant text-center">
+            Se abrirá WhatsApp con tus datos pre-completados para confirmar el turno.
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .form-input {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border-radius: 0.75rem;
+    border: 1.5px solid var(--color-outline-variant);
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    appearance: auto;
+  }
+  .form-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent);
+  }
+  .form-input::placeholder {
+    color: var(--color-outline);
+  }
+</style>
+
+<script>
+  // Fecha mínima: hoy
+  const fechaInput = document.getElementById('fecha') as HTMLInputElement | null;
+  if (fechaInput) {
+    fechaInput.min = new Date().toISOString().split('T')[0];
+  }
+
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const data = new FormData(form);
+    const nombre     = (data.get('nombre') as string).trim();
+    const telefono   = (data.get('telefono') as string).trim();
+    const mascota    = (data.get('nombre-mascota') as string).trim();
+    const especie    = data.get('especie') as string;
+    const servicio   = data.get('servicio') as string;
+    const sede       = data.get('sede') as string;
+    const fechaRaw   = data.get('fecha') as string;
+    const horario    = data.get('horario') as string;
+    const comentario = (data.get('comentario') as string).trim();
+
+    const fechaDisplay = fechaRaw
+      ? new Date(fechaRaw + 'T12:00:00').toLocaleDateString('es-AR', {
+          weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+        })
+      : fechaRaw;
+
+    const lineas = [
+      '🐾 *Solicitud de Turno — Maskotitas Veterinaria*',
+      '',
+      `👤 *Nombre:* ${nombre}`,
+      `📞 *Teléfono:* ${telefono}`,
+      `🐾 *Mascota:* ${mascota} (${especie})`,
+      `🏥 *Servicio:* ${servicio}`,
+      `📍 *Sede:* ${sede}`,
+      `📅 *Fecha:* ${fechaDisplay}`,
+      `🕐 *Horario:* ${horario}`,
+      comentario ? `💬 *Comentario:* ${comentario}` : '',
+    ].filter(Boolean);
+
+    const text = encodeURIComponent(lineas.join('\n'));
+    window.open(`https://wa.me/542643220000?text=${text}`, '_blank');
+  });
+</script>
