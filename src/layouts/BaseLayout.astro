@@ -8,10 +8,16 @@ interface Props {
 }
 
 const {
-  title = 'Maskotitas Veterinaria — Cuidado profesional para tus mascotas',
+  title = 'Maskotitas Veterinaria',
   description = 'Centro veterinario integral con dos sucursales en San Juan. Consultas, vacunación, cirugía, internación, peluquería y pet shop. Emergencias 24hs.',
   ogImage = '/og-image.jpg',
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+
+const fullOgImage = ogImage.startsWith('http') 
+  ? ogImage 
+  : `${base}${ogImage}`.replace(/\/+/g, '/');
 ---
 <!doctype html>
 <html lang="es">
@@ -20,11 +26,18 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    
+    <!-- Open Graph / Redes Sociales -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={fullOgImage} />
+    <meta property="twitter:image" content={fullOgImage} />
     <meta property="og:type" content="website" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Favicon CORREGIDO -->
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+
+    <!-- Fuentes y Estilos -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

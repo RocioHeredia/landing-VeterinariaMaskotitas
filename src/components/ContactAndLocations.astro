@@ -253,11 +253,15 @@ const horarios = [
     const mascota    = (data.get('nombre-mascota') as string).trim();
     const especie    = data.get('especie') as string;
     const servicio   = data.get('servicio') as string;
-    const sede       = data.get('sede') as string;
+    const sedeElegida = data.get('sede') as string;
     const fechaRaw   = data.get('fecha') as string;
     const horario    = data.get('horario') as string;
     const comentario = (data.get('comentario') as string).trim();
-
+    const sedesConfig: Record<string, string> = {
+      "Sucursal Capital — Salta 965 N., Capital, San Juan": "5492644704399", 
+      "Sucursal Chimbas — Mendoza 717 N., Chimbas, San Juan": "5492645743524"
+    };
+    const whatsappDestino = sedesConfig[sedeElegida]
     const fechaDisplay = fechaRaw
       ? new Date(fechaRaw + 'T12:00:00').toLocaleDateString('es-AR', {
           weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
@@ -278,6 +282,6 @@ const horarios = [
     ].filter(Boolean);
 
     const text = encodeURIComponent(lineas.join('\n'));
-    window.open(`https://wa.me/542643220000?text=${text}`, '_blank');
+    window.open(`https://wa.me/${whatsappDestino}?text=${text}`, '_blank');
   });
 </script>
